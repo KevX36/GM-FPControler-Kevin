@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
 
 
     }
-
+    
     
 
     public float speed = 1f;
@@ -21,7 +21,9 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //movement
         Vector3 move = transform.position;
+         
          
         if (Input.GetKey(KeyCode.W))
         {
@@ -44,7 +46,30 @@ public class PlayerMove : MonoBehaviour
             move.z--;
             transform.position = Vector3.MoveTowards(transform.position, move, speed * Time.deltaTime);
         }
-        
-
+        //sprint
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed++;
+            if (speed > basespeed * 2)
+            {
+                speed = basespeed * 2;
+            }
+        }
+        else if (Input.GetKey(KeyCode.RightShift))
+        {
+            speed++;
+            if (speed > basespeed * 2)
+            {
+                speed = basespeed * 2;
+            }
+        }
+        else if (speed > basespeed)
+        {
+            speed--;
+            if (speed< basespeed)
+            {
+                speed = basespeed;
+            }
+        }
     }
 }
