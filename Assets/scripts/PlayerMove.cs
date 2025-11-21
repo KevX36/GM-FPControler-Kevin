@@ -62,15 +62,15 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-
+        
 
         //movement
 
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 move = Quaternion.Euler(0,transform.eulerAngles.y,0) * moveDirection;
+        
 
-
-
-        controller.Move(moveDirection * speed * Time.deltaTime);
+        controller.Move(move * speed * Time.deltaTime);
 
 
         //camera
