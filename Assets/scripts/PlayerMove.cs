@@ -15,10 +15,10 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    public float accelerate = 0.5f;
-    public float deccelerate = 0.5f;
-    public float topSpeed = 10;
-    public float runSpeed = 20;
+    public float accelerate = 0.3f;
+    public float deccelerate = 0.1f;
+    public float topSpeed = 5;
+    public float runSpeed = 10;
     public float speed = 1f;
     private float basespeed;
     CharacterController controller;
@@ -37,6 +37,7 @@ public class PlayerMove : MonoBehaviour
         
         
         //sprint
+        
         if (Input.GetKey(KeyCode.LeftShift))
         {
             speed += accelerate;
@@ -53,17 +54,31 @@ public class PlayerMove : MonoBehaviour
                 speed = runSpeed;
             }
         }
+        else if (speed > topSpeed)
+        {
+            speed -= deccelerate;
+            
+        }
+        
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            if (speed < topSpeed)
+            {
+                speed += accelerate;
+            }
+        }
+        else if(Input.GetAxis("Vertical") != 0)
+        {
+            if (speed < topSpeed)
+            {
+                speed += accelerate;
+            }
+        }
         else if (speed > basespeed)
         {
             speed -= deccelerate;
-            if (speed < basespeed)
-            {
-                speed = basespeed;
-            }
+
         }
-
-        
-
         //movement
 
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -107,5 +122,4 @@ public class PlayerMove : MonoBehaviour
     }
     
     
-
 }

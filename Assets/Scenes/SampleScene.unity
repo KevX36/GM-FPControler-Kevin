@@ -1201,11 +1201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5a7cd44a22ec245842c012ce325e3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  accelerate: 0.5
-  deccelerate: 0.5
-  topSpeed: 10
-  runSpeed: 20
-  speed: 5
+  accelerate: 0.3
+  deccelerate: 0.1
+  topSpeed: 5
+  runSpeed: 10
+  speed: 3
   cam: {fileID: 330585543}
   pitchMax: 80
   pitchMin: -80
