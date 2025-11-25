@@ -20,6 +20,7 @@ public class PlayerMove : MonoBehaviour
     public float topSpeed = 5;
     public float runSpeed = 10;
     public float speed = 1f;
+    public float crawlSpeed;
     private float basespeed;
     CharacterController controller;
     public GameObject cam;
@@ -27,6 +28,7 @@ public class PlayerMove : MonoBehaviour
     private float yaw =0;
     public float pitchMax = 60;
     public float pitchMin = -60;
+    private bool crouching = false;
 
 
     // Update is called once per frame
@@ -34,7 +36,8 @@ public class PlayerMove : MonoBehaviour
     {
         
         
-        
+        //jump
+
         
         //sprint
         
@@ -79,13 +82,42 @@ public class PlayerMove : MonoBehaviour
             speed -= deccelerate;
 
         }
+        //crouch
+        
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            crouching = true;
+            if (speed > topSpeed)
+            {
+                speed = topSpeed;
+            }
+        }
+        else if (Input.GetKey(KeyCode.RightControl))
+        {
+            crouching = true;
+            if (speed > topSpeed)
+            {
+                speed = topSpeed;
+            }
+        }
+        else
+        {
+            crouching = false;
+        }
+        crawlSpeed = speed / 2;
         //movement
 
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 move = Quaternion.Euler(0,transform.eulerAngles.y,0) * moveDirection;
-        
 
-        controller.Move(move * speed * Time.deltaTime);
+        if (crouching == false)
+        {
+            controller.Move(move * speed * Time.deltaTime);
+        }
+        if (crouching == true)
+        {
+            controller.Move(move * crawlSpeed * Time.deltaTime);
+        }
 
 
         //camera
