@@ -10,8 +10,11 @@ public class PlayerMove : MonoBehaviour
 
         basespeed = speed;
         controller = GetComponent<CharacterController>();
-
-
+        if (gravity > 0)
+        {
+            gravity *= -1;
+        }
+        
 
     }
     public float turnspeed = 2;
@@ -29,59 +32,64 @@ public class PlayerMove : MonoBehaviour
     public float pitchMax = 60;
     public float pitchMin = -60;
     private bool crouching = false;
-
+    public float jumphight = 1.5f;
+    public float gravity = -9;
+    private Vector3 playerVelocity;
 
     // Update is called once per frame
     void Update()
     {
-        
-        
-        //jump
 
-        
+
+
+
+
         //sprint
-        
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (controller.isGrounded)
         {
-            speed += accelerate;
-            if (speed > runSpeed)
-            {
-                speed = runSpeed;
-            }
-        }
-        else if (Input.GetKey(KeyCode.RightShift))
-        {
-            speed += accelerate;
-            if (speed > runSpeed)
-            {
-                speed = runSpeed;
-            }
-        }
-        else if (speed > topSpeed)
-        {
-            speed -= deccelerate;
-            
-        }
-        
-        if (Input.GetAxis("Horizontal") != 0)
-        {
-            if (speed < topSpeed)
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 speed += accelerate;
+                if (speed > runSpeed)
+                {
+                    speed = runSpeed;
+                }
             }
-        }
-        else if(Input.GetAxis("Vertical") != 0)
-        {
-            if (speed < topSpeed)
+            else if (Input.GetKey(KeyCode.RightShift))
             {
                 speed += accelerate;
+                if (speed > runSpeed)
+                {
+                    speed = runSpeed;
+                }
             }
-        }
-        else if (speed > basespeed)
-        {
-            speed -= deccelerate;
+            else if (speed > topSpeed)
+            {
+                speed -= deccelerate;
 
+            }
+
+            if (Input.GetAxis("Horizontal") != 0)
+            {
+                if (speed < topSpeed)
+                {
+                    speed += accelerate;
+                }
+            }
+            else if (Input.GetAxis("Vertical") != 0)
+            {
+                if (speed < topSpeed)
+                {
+                    speed += accelerate;
+                }
+            }
+            else if (speed > basespeed)
+            {
+                speed -= deccelerate;
+
+            }
         }
+        
         //crouch
         
         if (Input.GetKey(KeyCode.LeftControl))
@@ -105,9 +113,26 @@ public class PlayerMove : MonoBehaviour
             crouching = false;
         }
         crawlSpeed = speed / 2;
+        //jump
+
+        if (controller.isGrounded)
+        {
+            playerVelocity.y = 0;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerVelocity.y = Mathf.Sqrt(jumphight * gravity);
+            }
+        }
+        playerVelocity.y += gravity * Time.deltaTime;
+
+
+
+
+
+
         //movement
 
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), playerVelocity.y, Input.GetAxis("Vertical"));
         Vector3 move = Quaternion.Euler(0,transform.eulerAngles.y,0) * moveDirection;
 
         if (crouching == false)
