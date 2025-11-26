@@ -120,7 +120,7 @@ public class PlayerMove : MonoBehaviour
             playerVelocity.y = 0;
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                playerVelocity.y = Mathf.Sqrt(jumphight * gravity);
+                playerVelocity.y = Mathf.Sqrt(jumphight * gravity*-1);
             }
         }
         playerVelocity.y += gravity * Time.deltaTime;
