@@ -1211,7 +1211,7 @@ MonoBehaviour:
   cam: {fileID: 330585543}
   pitchMax: 60
   pitchMin: -60
-  jumphight: 1.5
+  jumphight: 1
   gravity: -6
 --- !u!114 &839016966
 MonoBehaviour:
