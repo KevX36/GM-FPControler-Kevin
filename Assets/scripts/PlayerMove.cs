@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
 
 
     }
-
+    public float turnspeed = 2;
     public float accelerate = 0.3f;
     public float deccelerate = 0.1f;
     public float topSpeed = 5;
@@ -121,7 +121,7 @@ public class PlayerMove : MonoBehaviour
 
 
         //camera
-        pitch += Input.GetAxis("Mouse Y");
+        pitch += Input.GetAxis("Mouse Y")*turnspeed;
         if (pitch < pitchMin)
         {
             pitch = pitchMin;
@@ -131,7 +131,7 @@ public class PlayerMove : MonoBehaviour
             pitch = pitchMax;
         }
 
-        yaw += Input.GetAxis("Mouse X");
+        yaw += Input.GetAxis("Mouse X")*turnspeed;
         
         cam.transform.rotation = Quaternion.Euler(-pitch, yaw, 0);
         transform.rotation = Quaternion.Euler(0, yaw, 0);
