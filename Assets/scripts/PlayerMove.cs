@@ -7,7 +7,7 @@ public class PlayerMove : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        crouching = false;
         basespeed = speed;
         controller = GetComponent<CharacterController>();
         if (gravity > 0)
@@ -42,7 +42,7 @@ public class PlayerMove : MonoBehaviour
     public float crouchHeight=0.5f;
     public float curentHeight;
     public float getUpAndDownSpeed = 2;
-
+    private bool nothingAbove = true;
 
 
 
@@ -107,7 +107,7 @@ public class PlayerMove : MonoBehaviour
 
         }
         //crouch
-
+        
         if (Input.GetKey(KeyCode.LeftControl))
         {
             crouching = true;
@@ -124,14 +124,13 @@ public class PlayerMove : MonoBehaviour
                 speed = topSpeed;
             }
         }
-        else
+        else if (Physics2D.Raycast(transform.position, Vector2.up, 2f).collider == null)
         {
-            if (true)
-            {
-                crouching = false;
-            }
+            crouching = false;
         }
         crawlSpeed = speed / 2;
+        
+
 
         if (crouching == true)
         {
