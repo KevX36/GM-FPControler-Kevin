@@ -15,6 +15,9 @@ public class PlayerMove : MonoBehaviour
             gravity *= -1;
         }
         
+        height=transform.localScale.y;
+
+
 
     }
     public float turnspeed = 2;
@@ -35,6 +38,14 @@ public class PlayerMove : MonoBehaviour
     public float jumphight = 1.5f;
     public float gravity = -9;
     private Vector3 playerVelocity;
+    private float height=1;
+    public float crouchHeight=0.5f;
+    public float curentHeight;
+    public float getUpAndDownSpeed = 2;
+
+
+
+
 
     // Update is called once per frame
     void Update()
@@ -69,29 +80,34 @@ public class PlayerMove : MonoBehaviour
 
             }
 
-            if (Input.GetAxis("Horizontal") != 0)
-            {
-                if (speed < topSpeed)
-                {
-                    speed += accelerate;
-                }
-            }
-            else if (Input.GetAxis("Vertical") != 0)
-            {
-                if (speed < topSpeed)
-                {
-                    speed += accelerate;
-                }
-            }
-            else if (speed > basespeed)
-            {
-                speed -= deccelerate;
+            
+        }
+        else if (speed > topSpeed)
+        {
+            speed -= deccelerate;
 
+        }
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            if (speed < topSpeed)
+            {
+                speed += accelerate;
             }
         }
-        
+        else if (Input.GetAxis("Vertical") != 0)
+        {
+            if (speed < topSpeed)
+            {
+                speed += accelerate;
+            }
+        }
+        else if (speed > basespeed)
+        {
+            speed -= deccelerate;
+
+        }
         //crouch
-        
+
         if (Input.GetKey(KeyCode.LeftControl))
         {
             crouching = true;
@@ -110,9 +126,33 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            crouching = false;
+            if (true)
+            {
+                crouching = false;
+            }
         }
         crawlSpeed = speed / 2;
+
+        if (crouching == true)
+        {
+            curentHeight -= Time.deltaTime*getUpAndDownSpeed;
+            if (curentHeight <= crouchHeight)
+            {
+                curentHeight = crouchHeight;
+            }
+        }
+
+
+
+        if (crouching == false)
+        {
+            curentHeight += Time.deltaTime*getUpAndDownSpeed;
+            if (curentHeight >= height)
+            {
+                curentHeight = height;
+            }
+        }
+        transform.localScale = new Vector3(transform.localScale.x, curentHeight, transform.localScale.z);
         //jump
 
         if (controller.isGrounded)
