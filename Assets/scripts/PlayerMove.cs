@@ -42,7 +42,7 @@ public class PlayerMove : MonoBehaviour
     public float crouchHeight=0.5f;
     public float curentHeight;
     public float getUpAndDownSpeed = 2;
-    private bool nothingAbove = true;
+    
 
 
 
@@ -107,7 +107,7 @@ public class PlayerMove : MonoBehaviour
 
         }
         //crouch
-        
+        var cast = transform.position + new Vector3(0, curentHeight, 0);
         if (Input.GetKey(KeyCode.LeftControl))
         {
             crouching = true;
@@ -124,15 +124,21 @@ public class PlayerMove : MonoBehaviour
                 speed = topSpeed;
             }
         }
-        else if (Physics2D.Raycast(transform.position, Vector2.up, 2f).collider == null)
+        else if (crouching == false && Physics.Raycast(cast, Vector3.up, out RaycastHit hit, 0.2f))
+        {
+            crouching = true;
+        }
+        else
         {
             crouching = false;
+
+
         }
         crawlSpeed = speed / 2;
         
 
 
-        if (crouching == true)
+            if (crouching == true)
         {
             curentHeight -= Time.deltaTime*getUpAndDownSpeed;
             if (curentHeight <= crouchHeight)
